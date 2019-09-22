@@ -1,24 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// Libs
+import React from 'react'
+import { Button } from 'semantic-ui-react'
+// Hooks
+import { useCounter } from './hooks/useCounterService'
 
-function App() {
+const appStyle = {
+  height: '100vh',
+  background: 'salmon',
+  color: 'white',
+  textAlign: 'center'
+}
+
+const BACKEND_URL = 'http://localhost:8000/api'
+
+const App = () => {
+  const [counter, setCounter, counterService] = useCounter(BACKEND_URL)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={appStyle}>
+      <h1 style={{ paddingTop: '3em' }}>Counter</h1>
+      <h3>{counter}</h3>
+      <Button primary onClick={() => { setCounter(counter - 1) }}>
+        Substract one
+      </Button>
+      <Button primary onClick={() => { setCounter(counter + 1) }}>
+        Add one
+      </Button>
+      <Button primary onClick={() => { setCounter(0) }}>
+        Reset
+      </Button>
+      <Button primary onClick={() => { counterService.sendCounter() }}>
+        Save count
+      </Button>
+      <Button primary onClick={() => { counterService.getCounter() }}>
+        Load count
+      </Button>
+      <h3 style={{marginTop: 40}}>This is just a simple counter made as a quick learning project to get some grasp of the basics in redis!</h3>
     </div>
   );
 }
